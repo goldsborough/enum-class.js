@@ -8,9 +8,14 @@
 
 ## Usage
 
-Like the flexibility of the `namedtuple` constructor in Python, you can pass the members as `['A', 'B', 'C']`, `'A, B, C'` or `'A B C'`:
+Similar to the flexibility of the `namedtuple` constructor in Python, you can pass the members as `['A', 'B', 'C']`, `'A, B, C'` or `'A B C'`:
 ```JS
 const Color = EnumClass('Color', 'Red, Green, Blue');
+const Food = EnumClass('Food', 'Ham Spam');
+```
+
+But also optionally associate values with the enum members:
+```JS
 const Favorites = EnumClass('Food', {
     Red: function() { console.log('Every member has a value!'); },
     Spaghetti: [1, 2, 3],
@@ -52,7 +57,7 @@ console.log(Color.isMember(Favorites.Google)); // false
 ## Installing
 
 ```bash
-$ npm install enum-class
+$ npm install enum-class.js
 ```
 
 ## Hacketry
