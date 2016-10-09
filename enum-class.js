@@ -148,6 +148,7 @@ class EnumClassIterator {
    * @param {Function} enumClass An `EnumClass`.
    */
   constructor(enumClass) {
+    // eslint-disable-next-line dot-notation
     this[_members] = enumClass['members'];
     this[_index] = 0;
   }
@@ -261,7 +262,7 @@ function parseMembers(members) {
     }
   } else if (Array.isArray(members)) {
     // ['A', 'B', 'C']
-    return tryToMakeMemberObject(members);
+    return tryToMakeMemberObject(/** @type{!Array} */(members));
   } else if (typeof members === 'object') {
     return members;
   }
@@ -388,6 +389,7 @@ function defineEnumClass(name) {
    * @return {BaseEnumClass} The member with that ordinal (if * exists).
    */
   enumClass.at = function(ordinal) {
+    // eslint-disable-next-line dot-notation
     return enumClass['members'][ordinal];
   };
 

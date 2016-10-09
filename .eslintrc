@@ -12,6 +12,7 @@ env:
 rules:
   no-var: warn
   no-else-return: off
+  max-statements-per-line: off
   brace-style:
     - error
     - 1tbs
