@@ -18,7 +18,11 @@
     "gulp-ava": "^0.14.1",
     "gulp-babel": "^6.1.2",
     "gulp-closure-compiler": "^0.4.0",
-    "gulp-eslint": "^3.0.1"
+    "gulp-eslint": "^3.0.1",
+    "gulp-rename": "^1.2.2"
+  },
+  "scripts": {
+    "build": "babel *.es6 --out-dir compiled"
   },
   "repository": {
     "type": "git",

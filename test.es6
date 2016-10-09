@@ -1,5 +1,5 @@
 import test from 'ava';
-import EnumClass from './transpiled/enum-class';
+import EnumClass from './enum-class';
 
 /* eslint-disable new-cap */
 

@@ -20,19 +20,19 @@ gulp.task('lint', () => {
 });
 
 const babel = require('gulp-babel');
+const rename = require('gulp-rename');
 
 gulp.task('transpile', () =>
-    gulp.src('enum-class.js')
-        .pipe(babel({
-          presets: ['es2015']
-        }))
-        .pipe(gulp.dest('transpiled'))
+  gulp.src(['enum-class.es6', 'test.es6'])
+      .pipe(babel({presets: ['es2015']}))
+      .pipe(rename(path => { path.extname = '.js'; return path; }))
+      .pipe(gulp.dest('build/'))
 );
 
 const ava = require('gulp-ava');
 
 gulp.task('test', ['transpile'], () =>
-    gulp.src('test.js')
+    gulp.src('build/test.js')
         .pipe(ava({verbose: true}))
 );
 
@@ -40,7 +40,7 @@ const closureCompiler = require('gulp-closure-compiler');
 
 /* eslint-disable camelcase */
 gulp.task('compile', function() {
-  return gulp.src(['enum-class.js'])
+  return gulp.src(['enum-class.es6'])
     .pipe(closureCompiler({
       fileName: 'enum-class.min.js',
       compilerFlags: {
@@ -49,7 +49,7 @@ gulp.task('compile', function() {
         language_out: 'ES5'
       }
     }))
-    .pipe(gulp.dest('.'));
+    .pipe(gulp.dest('build'));
 });
 
 const del = require('del');
