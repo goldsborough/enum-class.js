@@ -10,7 +10,7 @@
 
 ## Usage
 
-Like the flexibility of the `namedtuple` constructor in Python, you can pass the members as ['A', 'B', 'C'], 'A, B, C', 'A B C'
+Like the flexibility of the `namedtuple` constructor in Python, you can pass the members as `['A', 'B', 'C']`, `'A, B, C'` or `'A B C'`:
 ```JS
 const Color = EnumClass('Color', 'Red, Green, Blue');
 const Favorites = EnumClass('Food', {

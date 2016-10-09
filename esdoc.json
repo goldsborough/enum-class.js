@@ -1,5 +1,5 @@
 {
-  "source": ".",
+  "source": "./",
   "destination": "./docs",
   "includes": ["enum-class.es6"],
   "unexportIdentifier": true,
