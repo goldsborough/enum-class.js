@@ -2,7 +2,7 @@
   "name": "enum-class.js",
   "version": "0.1.1",
   "description": "Strongly typed enums in JavaScript",
-  "main": "enum-class.es6",
+  "main": "enum-class.js",
   "dependencies": {
     "eslint": "^3.7.1"
   },

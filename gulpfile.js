@@ -7,7 +7,7 @@ gulp.task('lint', () => {
     // So, it's best to have gulp ignore the directory as well.
     // Also, Be sure to return the stream from the task;
     // Otherwise, the task may end before the stream has finished.
-  return gulp.src(['enum-class.js', 'test.js'])
+  return gulp.src(['enum-class.es6', 'test.es6'])
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
@@ -20,13 +20,13 @@ gulp.task('transpile', () =>
   gulp.src(['enum-class.es6', 'test.es6'])
       .pipe(babel({presets: ['es2015']}))
       .pipe(rename(path => { path.extname = '.js'; return path; }))
-      .pipe(gulp.dest('build/'))
+      .pipe(gulp.dest('.'))
 );
 
 const ava = require('gulp-ava');
 
 gulp.task('test', ['transpile'], () =>
-    gulp.src('build/test.js')
+    gulp.src('test.js')
         .pipe(ava({verbose: true}))
 );
 
@@ -43,7 +43,7 @@ gulp.task('compile', () => {
         language_out: 'ES5'
       }
     }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest(''));
 });
 
 const esdoc = require("gulp-esdoc");
