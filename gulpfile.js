@@ -19,20 +19,37 @@ gulp.task('lint', () => {
         .pipe(eslint.failAfterError());
 });
 
+const babel = require('gulp-babel');
+
+gulp.task('transpile', () =>
+    gulp.src('enum-class.js')
+        .pipe(babel({
+          presets: ['es2015']
+        }))
+        .pipe(gulp.dest('transpiled'))
+);
+
+const ava = require('gulp-ava');
+
+gulp.task('test', ['transpile'], () =>
+    gulp.src('test.js')
+        .pipe(ava({verbose: true}))
+);
+
 const closureCompiler = require('gulp-closure-compiler');
 
 /* eslint-disable camelcase */
 gulp.task('compile', function() {
   return gulp.src(['enum-class.js'])
     .pipe(closureCompiler({
-      fileName: 'build.js',
+      fileName: 'enum-class.min.js',
       compilerFlags: {
         warning_level: 'VERBOSE',
         language_in: 'ES6',
         language_out: 'ES5'
       }
     }))
-    .pipe(gulp.dest('build'));
+    .pipe(gulp.dest('.'));
 });
 
-gulp.task('default', ['lint', 'compile'], function() { });
+gulp.task('default', ['lint', 'test', 'compile'], function() { });

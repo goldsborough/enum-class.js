@@ -51,3 +51,5 @@ jspm_packages
 .tags
 .tags1
 *.jar
+transpiled/
+build/

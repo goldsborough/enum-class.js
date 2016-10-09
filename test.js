@@ -1,5 +1,5 @@
 import test from 'ava';
-import EnumClass from './enum-class.js';
+import EnumClass from './transpiled/enum-class';
 
 /* eslint-disable new-cap */
 
