@@ -1,5 +1,5 @@
 {
-  "name": "enum-class",
+  "name": "enum-class.js",
   "version": "0.1.0",
   "description": "Strongly typed enums in JavaScript",
   "main": "enum-class.js",
