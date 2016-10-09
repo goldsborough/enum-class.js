@@ -16,40 +16,47 @@ class EnumClassPermissionError extends Error {
 /**
  * An error thrown for definition errors.
  */
-class EnumClassDefinitionError extends Error {
-  constructor() {
-    super('No permission to call enum constructor');
-  }
-}
+class EnumClassDefinitionError extends Error { }
 
 /**
  * A symbol for the name enum property.
- * @type {Symbol}
+ * @type {Function}
  */
 const _name = Symbol.for('enum.name');
 
 /**
  * A symbol for the ordinal enum property.
- * @type {Symbol}
+ * @type {Function}
  */
 const _ordinal = Symbol.for('enum.ordinal');
 
 /**
  * A symbol for the value enum property.
- * @type {Symbol}
+ * @type {Function}
  */
 const _value = Symbol.for('enum.value');
 
 /**
  * A permission key symbol available only inside this module.
- * @type {Symbol}
+ * @type {Function}
  */
-const _permission = Symbol.for(Math.random());
+const _permission = Symbol.for(String(Math.random()));
 
 /**
  * The base class for all user-defined enums.
+ * @unrestricted
  */
 class BaseEnumClass {
+
+  /**
+   * @param {string} name The name of the member.
+   * @param {number} ordinal The ordinal of the member.
+   * @param {*} value The value of the member.
+   * @param {Function} permission The permission symbol.
+   * @throws EnumClassPermissionError if the permission symbol
+   *                                  is not passed or invalid.
+   * @throws EnumClassDefinitionError if the name is not of string type.
+   */
   constructor(name, ordinal, value, permission) {
     if (permission !== _permission) {
       throw new EnumClassPermissionError();
@@ -62,21 +69,18 @@ class BaseEnumClass {
     /**
      * The name of the enum class member.
      * @type {string}
-     * @constant
      */
     this[_name] = name;
 
     /**
      * The unique ordinal of the enum class member.
      * @type {number}
-     * @constant
      */
     this[_ordinal] = ordinal;
 
     /**
      * The value of the enum class member.
-     * @type {any}
-     * @constant
+     * @type {*}
      */
     this[_value] = value;
 
@@ -99,7 +103,7 @@ class BaseEnumClass {
   }
 
   /**
-   * @return {any} The value property of the enum class member.
+   * @return {*} The value property of the enum class member.
    */
   get value() {
     return this[_value];
@@ -107,7 +111,7 @@ class BaseEnumClass {
 
   /**
    * @return {string} The name of the enum class of
-   *                  which this instance is a member.
+   *                       which this instance is a member.
    */
   get type() {
     return this.constructor.name;
@@ -123,27 +127,28 @@ class BaseEnumClass {
 
 /**
  * A symbol for the members property of the `EnumClassIterator`.
- * @type {Symbol}
+ * @type {Function}
  */
 const _members = Symbol.for('members');
 
 /**
  * A symbol for the index property of the `EnumClassIterator`.
- * @type {Symbol}
+ * @type {Function}
  */
 const _index = Symbol.for('index');
 
 /**
  * An iterator over an enum class.
+ * @unrestricted
  */
 class EnumClassIterator {
   /**
    * Constructs the `EnumClassIterator` from an `EnumClass`.
    *
-   * @param {class} enumClass An `EnumClass`.
+   * @param {Function} enumClass An `EnumClass`.
    */
   constructor(enumClass) {
-    this[_members] = enumClass.members;
+    this[_members] = enumClass['members'];
     this[_index] = 0;
   }
 
@@ -156,7 +161,7 @@ class EnumClassIterator {
   }
 
   /**
-   * @return {object} The state of the iterator, as per the iterator protocol.
+   * @return {Object} The state of the iterator, as per the iterator protocol.
    */
   next() {
     if (this.done) return {done: true};
@@ -169,7 +174,7 @@ class EnumClassIterator {
 
 /**
  * Tests if an array contains only strings.
- * @param  {array} array The array to test.
+ * @param  {Arguments|Array} array The array to test.
  * @return {boolean} True if the array contains only strings, else false.
  */
 function containsOnlyStrings(array) {
@@ -184,8 +189,8 @@ function containsOnlyStrings(array) {
  *
  * The object maps names to values, in this case all `undefined`.
  *
- * @param  {Array} array The array to turn into an object.
- * @return {object} An object with `(string, undefined)` pairs.
+ * @param  {Arguments|Array} array The array to turn into an object.
+ * @return {Object} An object with `(string, undefined)` pairs.
  */
 function turnIntoObject(array) {
   const object = {};
@@ -201,7 +206,7 @@ function turnIntoObject(array) {
 
 /**
  * Tests if an array contains only unique keys.
- * @param  {array} array The array to test.
+ * @param  {Arguments|Array} array The array to test.
  * @return {boolean} True if the array is unique, else false.
  */
 function allAreUnique(array) {
@@ -220,8 +225,8 @@ function allAreUnique(array) {
  *
  * The array must contain only strings and all must be unique.
  *
- * @param  {array} array An array of strings.
- * @return {object} An object with `(string, undefined)` pairs.
+ * @param  {Arguments|Array} array An array of strings.
+ * @return {Object} An object with `(string, undefined)` pairs.
  */
 function tryToMakeMemberObject(array) {
   if (containsOnlyStrings(array) && allAreUnique(array)) {
@@ -241,8 +246,8 @@ function tryToMakeMemberObject(array) {
  * // ['A', 'B', 'C']
  * // {A: 1, B: 2}
  *
- * @param  {string|object|array} members The members.
- * @return {[type]}         [description]
+ * @param  {String|Object|Array} members The members.
+ * @return {Object} An object of `(name, value)` pairs.
  */
 function parseMembers(members) {
   if (arguments.length > 1) {
@@ -266,9 +271,9 @@ function parseMembers(members) {
 
 /**
  * Instantiates enum members from an object with `(name: value)` pairs.
- * @param {class} enumClass An enum class.
- * @param  {object} members An object of `(name: value)` pairs.
- * @return {array} An array of enum instances.
+ * @param {Function} enumClass An enum class.
+ * @param  {Object} members An object of `(name: value)` pairs.
+ * @return {Array} An array of enum instances.
  */
 function instantiateMembers(enumClass, members) {
   const instances = [];
@@ -288,8 +293,8 @@ function instantiateMembers(enumClass, members) {
  * Enums all have a name, an ordinal and a value.
  *
  * @param  {string} name The name for the enum to create.
- * @param {class} Base The base class from which to inherit the enum class.
- * @return {class} A new enum class object.
+ * @param {Function} Base The base class from which to inherit the enum class.
+ * @return {Function} A new enum class object.
  */
 function createEnumClass(name, Base) {
   const body = `return class ${name} extends Base {}`;
@@ -300,15 +305,14 @@ function createEnumClass(name, Base) {
 /**
  * Defines and finalizes the enum class given its members.
  * @param  {string} name The name of the enum class to create.
- * @param  {array} members   An array of instances of the enum class.
- * @return {[type]}           [description]
+ * @return {Function} The defined enum class.
  */
 function defineEnumClass(name) {
   const enumClass = createEnumClass(name, BaseEnumClass);
 
   /**
    * An array of the members of the enum class.
-   * @type {array}
+   * @type {Array}
    */
   let members = [];
 
@@ -320,12 +324,12 @@ function defineEnumClass(name) {
 
   /**
    * Factory function for new enum class members.
-   * @param {string} name  The name of the member.
-   * @param {any} value The value of the member.
-   * @return {EnumClass} The new member.
+   * @param {string|Object} name  The name of the member.
+   * @param {*} value The value of the member.
+   * @return {BaseEnumClass} The new member.
    */
   enumClass.create = function(name, value) {
-    if (enumClass.contains(name)) {
+    if (name in enumClass) {
       throw new EnumClassDefinitionError(
         'Attempted to create duplicate' +
         `enum class member '${name}'`
@@ -335,7 +339,7 @@ function defineEnumClass(name) {
     // Allow passing { name: value } objects.
     if (typeof name === 'object') {
       const object = name;
-      name = Object.keys(name)[0];
+      name = Object.keys(/** @type {!Object} */ (name))[0];
       value = object[name];
     }
 
@@ -365,7 +369,6 @@ function defineEnumClass(name) {
 
   /**
    * Defines a public, read-only array of the enum class' members' names.
-   * @type {[type]}
    */
   Object.defineProperty(enumClass, 'names', {
     get: (function() {
@@ -382,19 +385,19 @@ function defineEnumClass(name) {
   /**
    * Returns the member with the given ordinal.
    * @param  {number} ordinal The ordinal for which to get the member.
-   * @return {EnumClass} The member with that ordinal (if any exists).
+   * @return {BaseEnumClass} The member with that ordinal (if * exists).
    */
   enumClass.at = function(ordinal) {
-    return this.members[ordinal];
+    return enumClass['members'][ordinal];
   };
 
   /**
    * Tests if the given argument is a member of this enum class.
    *
-   * If the argument is a string, the method tests  if any member has such a
+   * If the argument is a string, the method tests  if * member has such a
    * name. Else, it performs membership test just like `isMember()`.
    *
-   * @param  {string|EnumClass} member The member to test for.
+   * @param  {string|BaseEnumClass|null} member The member to test for.
    * @return {boolean} True if the argument is a member, else false.
    * @see enumClass.isMember
    */
@@ -402,7 +405,7 @@ function defineEnumClass(name) {
     if (typeof member === 'string') {
       return member in this;
     } else {
-      return this.isMember(member);
+      return enumClass.isMember(member);
     }
   };
 
@@ -411,9 +414,9 @@ function defineEnumClass(name) {
    *
    * Equialent to `member instanceof <class>`.
    *
-   * @param  {object}  member An object to test membership for.
-   * @return {Boolean}        [description]
-   * * @see enumClass.contains
+   * @param  {Object}  member An object to test membership for.
+   * @return {boolean}        [description]
+   * @see enumClass.contains
    */
   enumClass.isMember = function(member) {
     return member instanceof this;
@@ -441,9 +444,8 @@ function defineEnumClass(name) {
  * The members are derived from the argument(s) after `name`,
  * which can be one of several formats (see `parseMembers`).
  *
- * @param {name} name The name of the enum to create.
- * @param {string|array|object} Members as further arguments.
- * @return {class} A new class.
+ * @param {string} name The name of the enum to create.
+ * @return {Function} A new class.
  */
 export default function EnumClass(name) {
   const enumClass = defineEnumClass(name);
