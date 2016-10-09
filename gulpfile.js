@@ -1,4 +1,4 @@
-let gulp = require('gulp');
+const gulp = require('gulp');
 
 const eslint = require('gulp-eslint');
 
@@ -50,6 +50,12 @@ gulp.task('compile', function() {
       }
     }))
     .pipe(gulp.dest('.'));
+});
+
+const del = require('del');
+
+gulp.task('clean', () => {
+  return del(['build', 'enum-class.min.js']);
 });
 
 gulp.task('default', ['lint', 'test', 'compile'], function() { });
