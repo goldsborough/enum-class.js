@@ -1,8 +1,6 @@
 # enum-class.js
 
-[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](http://goldsborough.mit-license.org)
-
-[![Build Status](https://travis-ci.org/goldsborough/enum-class.js.svg?branch=master)](https://travis-ci.org/goldsborough/enum-class.js)
+[![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](http://goldsborough.mit-license.org) [![Build Status](https://travis-ci.org/goldsborough/enum-class.js.svg?branch=master)](https://travis-ci.org/goldsborough/enum-class.js)
 
 [![NPM](https://nodei.co/npm/enum-class.js.png)](https://npmjs.org/package/enum-class.js)
 
