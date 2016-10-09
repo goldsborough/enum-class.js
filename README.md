@@ -4,6 +4,8 @@
 
 [![Build Status](https://travis-ci.org/goldsborough/enum-class.js.svg?branch=master)](https://travis-ci.org/goldsborough/enum-class.js)
 
+[![NPM](https://nodei.co/npm/enum-class.js.png)](https://npmjs.org/package/enum-class.js)
+
 `enum-class.js` gives JavaScript the power of strongly-typed enums, inspired by modern C++ `enum class`es, Python `namedtuples` and Java `enum`s, with dynamic JavaScript sugar sprinkled on top.
 
 ## Usage
