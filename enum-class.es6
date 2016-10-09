@@ -4,6 +4,8 @@
 * @license MIT
 */
 
+'use strict';
+
 /**
  * An error thrown for permission errors.
  */

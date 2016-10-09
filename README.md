@@ -2,7 +2,7 @@
 
 [![GitHub license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](http://goldsborough.mit-license.org)
 
-[![ESDoc Coverage](https://doc.esdoc.org/github.com/goldsborough/enum-class/badge.svg)]
+[![ESDoc Coverage](https://doc.esdoc.org/github.com/goldsborough/enum-class.js/badge.svg)]
 
 `enum-class` gives JavaScript the power of strongly-typed enums, inspired by modern C++ `enum class`es, Python `namedtuples` and Java `enum`s, with dynamic JavaScript sugar sprinkled on top.
 

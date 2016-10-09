@@ -1,3 +1,11 @@
+/**
+* @file `EnumClass` tests.
+* @author Peter Goldsborough <peter@goldsborough.me>
+* @license MIT
+*/
+
+'use strict';
+
 import test from 'ava';
 import EnumClass from './enum-class';
 
