@@ -53,3 +53,11 @@ jspm_packages
 *.jar
 transpiled/
 build/
+
+# Created by https://www.gitignore.io/api/bower
+
+### Bower ###
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
