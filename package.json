@@ -1,0 +1,34 @@
+{
+  "name": "enum-class",
+  "version": "1.0.0",
+  "description": "Strongly typed enums in ES6",
+  "main": "enum-class.js",
+  "dependencies": {
+    "eslint": "^3.7.1"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0",
+    "babel-cli": "^6.16.0",
+    "babel-preset-latest": "^6.16.0",
+    "eslint": "^3.7.1",
+    "eslint-config-google": "^0.6.0"
+  },
+  "scripts": {
+    "test": "ava",
+    "build": "babel *.js --out-dir compiled"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goldsborough/enum-class.js.git"
+  },
+  "keywords": [
+    "enum",
+    "es6"
+  ],
+  "author": "Peter Goldsborough",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/goldsborough/enum-class.js/issues"
+  },
+  "homepage": "https://github.com/goldsborough/enum-class.js#readme"
+}
