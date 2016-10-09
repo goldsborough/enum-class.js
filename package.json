@@ -25,7 +25,8 @@
     "mkdirp": "^0.5.1"
   },
   "scripts": {
-    "build": "babel *.es6 --out-dir compiled"
+    "build": "gulp",
+    "docs": "esdoc -c esdoc.json"
   },
   "repository": {
     "type": "git",
