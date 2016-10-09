@@ -67,12 +67,12 @@ test('throws for incorrect formats', t => {
 });
 
 test('throws for duplicate members', t => {
-  t.throws(() => EnumClass('E', 'X, X'));
+  t.throws(() => EnumClass('E', 'X, X'), /unique/);
 
-  // t.throws(() => {
-  //   const E = EnumClass('E', 'X');
-  //   E.create('X');
-  // });
+  t.throws(() => {
+    const E = EnumClass('E', 'X');
+    E.add('X');
+  }, /duplicate/);
 });
 
 test('members of different classes compare false', t => {
@@ -117,34 +117,37 @@ test('classes are immutable', t => {
 
 test('throws when trying to instantiate directly', t => {
   const E = EnumClass('E');
-  t.throws(() => new E('X', 1));
-});
+  t.throws(() => new E('X', '?'));
+}, /permission/);
 
 test('contains works', t => {
   const members = 'X Y Z'.split(' ');
   const E = EnumClass('E', members);
+
   t.true(members.every(E.contains.bind(E)));
+  t.true(members.every(member => E.contains(E[member])));
+  t.false(E.contains(EnumClass('A', 'A').A));
 });
 
-test('members can be added through create', t => {
+test('members can be added through add', t => {
   const E = EnumClass('E');
   t.is(E.length, 0);
 
-  E.create('X');
+  E.add('X');
   t.is(E.length, 1);
   t.true(E.contains('X'));
   t.is(E.X.name, 'X');
   t.is(E.X.ordinal, 0);
   t.is(E.X.value, undefined);
 
-  E.create('Y', 'foo');
+  E.add('Y', 'foo');
   t.is(E.length, 2);
   t.true(E.contains('Y'));
   t.is(E.Y.name, 'Y');
   t.is(E.Y.ordinal, 1);
   t.is(E.Y.value, 'foo');
 
-  E.create({Z: [1, 2, 3]});
+  E.add({Z: [1, 2, 3]});
   t.is(E.length, 3);
   t.true(E.contains('Z'));
   t.is(E.Z.name, 'Z');
@@ -172,7 +175,7 @@ test('length stays up to date', t => {
   t.is(E.length, 3);
 
   for (let i = 1; i <= 100; ++i) {
-    E.create(String(i));
+    E.add(String(i));
     t.is(E.length, 3 + i);
   }
 });

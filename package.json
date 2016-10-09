@@ -1,7 +1,7 @@
 {
   "name": "enum-class",
-  "version": "1.0.0",
-  "description": "Strongly typed enums in ES6",
+  "version": "0.1.0",
+  "description": "Strongly typed enums in JavaScript",
   "main": "enum-class.js",
   "dependencies": {
     "eslint": "^3.7.1"
@@ -18,8 +18,10 @@
     "gulp-ava": "^0.14.1",
     "gulp-babel": "^6.1.2",
     "gulp-closure-compiler": "^0.4.0",
+    "gulp-esdoc": "^0.3.0",
     "gulp-eslint": "^3.0.1",
-    "gulp-rename": "^1.2.2"
+    "gulp-rename": "^1.2.2",
+    "mkdirp": "^0.5.1"
   },
   "scripts": {
     "build": "babel *.es6 --out-dir compiled"

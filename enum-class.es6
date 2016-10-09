@@ -7,7 +7,7 @@
 /**
  * An error thrown for permission errors.
  */
-class EnumClassPermissionError extends Error {
+export class EnumClassPermissionError extends Error {
   constructor() {
     super('No permission to call enum constructor');
   }
@@ -16,7 +16,7 @@ class EnumClassPermissionError extends Error {
 /**
  * An error thrown for definition errors.
  */
-class EnumClassDefinitionError extends Error { }
+export class EnumClassDefinitionError extends Error { }
 
 /**
  * A symbol for the name enum property.
@@ -227,14 +227,19 @@ function allAreUnique(array) {
  * The array must contain only strings and all must be unique.
  *
  * @param  {Arguments|Array} array An array of strings.
+ * @param {boolean=} checkStrings Whether to check if the
+ *                                array contains only strings.
  * @return {Object} An object with `(string, undefined)` pairs.
  */
-function tryToMakeMemberObject(array) {
-  if (containsOnlyStrings(array) && allAreUnique(array)) {
-    return turnIntoObject(array);
-  } else {
-    throw new TypeError('Invalid format for enum members');
+function tryToMakeMemberObject(array, checkStrings) {
+  checkStrings = (checkStrings === undefined) ? true : checkStrings;
+  if (checkStrings && !containsOnlyStrings(array)) {
+    throw new EnumClassDefinitionError('Invalid format for enum members');
+  } else if (!allAreUnique(array)) {
+    throw new EnumClassDefinitionError('Enum member names must be unique');
   }
+
+  return turnIntoObject(array);
 }
 
 /**
@@ -257,17 +262,15 @@ function parseMembers(members) {
   } else if (typeof members === 'string') {
     // 'A, B, C' or 'A B C'
     let match = members.match(/\w+/g);
-    if (match && allAreUnique(match)) {
-      return turnIntoObject(match);
-    }
+    return tryToMakeMemberObject(match, false);
   } else if (Array.isArray(members)) {
     // ['A', 'B', 'C']
-    return tryToMakeMemberObject(/** @type{!Array} */(members));
+    return tryToMakeMemberObject(members);
   } else if (typeof members === 'object') {
     return members;
   }
 
-  throw new TypeError('Invalid format for enum members');
+  throw new EnumClassDefinitionError('Invalid format for enum members');
 }
 
 /**
@@ -281,7 +284,7 @@ function instantiateMembers(enumClass, members) {
 
   for (let name in members) {
     if (members.hasOwnProperty(name)) {
-      instances.push(enumClass.create(name, members[name]));
+      instances.push(enumClass.add(name, members[name]));
     }
   }
 
@@ -329,10 +332,10 @@ function defineEnumClass(name) {
    * @param {*} value The value of the member.
    * @return {BaseEnumClass} The new member.
    */
-  enumClass.create = function(name, value) {
+  enumClass.add = function(name, value) {
     if (name in enumClass) {
       throw new EnumClassDefinitionError(
-        'Attempted to create duplicate' +
+        'Attempted to add duplicate ' +
         `enum class member '${name}'`
       );
     }
